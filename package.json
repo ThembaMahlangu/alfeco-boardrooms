@@ -10,9 +10,10 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.17",
+    "@microsoft/microsoft-graph-client": "^3.0.6",
     "autoprefixer": "10.4.15",
     "bcrypt": "^5.1.1",
-    "firebase": "^10.2.0",
+    "firebase": "^10.4.0",
     "framer-motion": "^10.16.1",
     "hamburger-react": "^2.5.0",
     "jsonwebtoken": "^9.0.1",

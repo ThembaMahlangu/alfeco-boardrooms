@@ -1,44 +1,56 @@
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
 import { tabs } from '@/components/Data';
 import { RiMenuFoldLine, RiMenuUnfoldLine } from 'react-icons/ri';
-import { useRouter } from 'next/router';
 import DashNav from '@/components/DashNav';
-import { toast, Toaster } from 'react-hot-toast';
 import ChatIcon from '@/components/ChatSupport';
 import Footer from '@/components/Footer';
+import Head from 'next/head';
+import { useSession, signOut } from 'next-auth/react';
+import { useRouter } from 'next/router';
 
-const DashboardPage = () => {
+export default function DashboardPage () {
   const [isMenuOpen, setMenuOpen] = useState(true);
   const [selectedTab, setSelectedTab] = useState('home');
+  const { data: session, status } = useSession();
   const router = useRouter();
-  
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-        if (localStorage.getItem('token') === null) {
-            toast('You are not logged in, redirecting to login page',
-            {
-                icon: '❌',
-                style: {
-                borderRadius: '10px',
-                background: '#333',
-                color: '#fff',
-                },
-            }
-            );
-            router.push('/login');
-        }
-    }
-  }, []);
 
   const TabComponent = tabs.find(tab => tab.id === selectedTab)?.component;
 
+  useEffect(() => {
+    // Redirect to login if user is not authenticated
+    if (status === 'loading') return;  // Wait until session status is resolved
+    if (!session) {
+      router.push('/login');
+    }
+  }, [session, status, router]);
+
+  console.log(session?.user?.image);
+  console.log(session?.user?.name);
+  console.log(session?.user?.email);
+  console.log(session?.user?.id);
+  // console.log(session);
+
+  const handleLogout = async () => {
+    // Call signOut to log the user out and clear the session
+    await signOut();
+    // Redirect the user to the login page
+    router.push('/login');
+  };
+
   return (
     <>
-    <Toaster />
+    <Head>
+      <title>Boardrooms Dashboard</title>
+      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      <meta name="description" content="Boardrooms Dashboard" />
+      <meta name="keywords" content="Boardrooms Dashboard" />
+      <meta name="author" content="Alfeco" />
+      <link rel="icon" href="/favicon.ico" />
+    </Head>
     <DashNav />
     <div className="flex h-full bg-gray-200">
       {/* Sidebar */}
-      <div className={`flex flex-col h-screen transition-all duration-300 ease-in-out ${isMenuOpen ? 'w-64' : 'w-16'} bg-[#ff9933] text-gray-500`}>
+      <div className={`flex flex-col h-auto transition-all duration-300 ease-in-out ${isMenuOpen ? 'w-64' : 'w-16'} bg-gray-900 text-white`}>
         {/* Menu toggle button */}
         <button
           className="flex items-center justify-center h-16 bg-gray-800 hover:bg-gray-700 transition-all"
@@ -66,9 +78,16 @@ const DashboardPage = () => {
             className={`flex items-center ${
               isMenuOpen ? 'justify-start pl-8' : 'justify-center'
             } h-16 border-b border-gray-700 ${
-              tab.id === selectedTab ? 'bg-[#00ffc7] scale-110 transform transition-all duration-200' : ''
+              tab.id === selectedTab ? 'bg-gray-500 scale-110 transform transition-all duration-200' : ''
             } hover:bg-gray-700 transition-all`}
-            onClick={() => setSelectedTab(tab.id)}
+            onClick={() => {
+              if (tab.id === 'logout') {
+                // Handle logout when the "logout" tab is clicked
+                handleLogout();
+              } else {
+                setSelectedTab(tab.id);
+              }
+            }}
           >
             {/* Menu option icon */}
             <tab.icon className={`w-6 h-6 text-gray-400 ${tab.id === selectedTab ? 'transition-all duration-200' : ''}`} />
@@ -90,5 +109,3 @@ const DashboardPage = () => {
     </>
   );
 };
-
-export default DashboardPage;

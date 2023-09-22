@@ -1,8 +1,4 @@
 import MyCalendar from "@/components/Calendar";
-import ChatIcon from "@/components/ChatSupport";
-import Footer from "@/components/Footer";
-import Navbar from "@/components/Navbar";
-import Transition from "@/components/Transition";
 
 export default function Schedules() {
   return (

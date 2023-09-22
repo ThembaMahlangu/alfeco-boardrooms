@@ -17,14 +17,15 @@ export default function HomeHero() {
       x: undefined,
       y: undefined
     }
+    
     let rgb = [
-      "rgb(13, 13, 107)",
-      "rgb(171, 170, 169)",
-      "rgb(217, 37, 24)",
-      "rgb(254, 82, 64)",
-      "rgb(68, 133, 3)",
-      "rgb(171, 89, 2)",
-      "rgb(171, 170, 169)"
+      "rgb(235, 64, 52)",
+      "rgb(0, 255, 200)",
+      "rgb(204, 102, 51)",
+      "rgb(235, 64, 52)",
+      "rgb(0, 255, 200)",
+      "rgb(204, 102, 51)",
+      "rgb(235, 232, 237)"
     ]
 
     const resizeReset = () => {
@@ -155,7 +156,6 @@ export default function HomeHero() {
 
   const nextSlide = () => setCurrentSlide((currentSlide + 1) % 2);
   const prevSlide = () => setCurrentSlide((currentSlide - 1 + 2) % 2);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <>
@@ -190,7 +190,7 @@ export default function HomeHero() {
 
       {/* Action Buttons */}
       <div className="absolute inline bottom-24 left-1/2 transform -translate-x-1/2">
-        <button onClick={currentSlide === 0 ? () => setIsModalOpen(true) : () => window.location.href = '/schedules'}
+        <button onClick={currentSlide === 0 ? () => window.location.href = '/login' : () => window.location.href = '/schedules'}
          className={!isMobile ? `bg-[#00ffc7] bg-opacity-10 border-2 border-white text-white px-10 py-3 text-xl hover:bg-[#fff] hover:text-black hover:border-black hover:shadow-lg transition-shadow duration-300` : `bg-[#00ffc7] bg-opacity-10 border-2 border-white text-white px-7 py-3 text-xl hover:bg-[#fff] hover:text-black hover:border-black hover:shadow-lg transition-shadow duration-300` }>
           {currentSlide === 0 ? 'Book Now' : 'Check Schedules'}
         </button>
@@ -209,7 +209,6 @@ export default function HomeHero() {
         ))}
       </div>
     </div>
-    <BookingModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </>
   );
 }

@@ -2,6 +2,8 @@ import { FaCalendar, FaHome } from "react-icons/fa";
 import BookingsTab from "@/components/BookingsTab";
 import HomeTab from "@/components/HomeTab";
 import Schedules from "@/components/SchedulesTab";
+import { MdEditSquare } from "react-icons/md";
+import { RiShutDownLine } from "react-icons/ri";
 
 export const bookings = [
     {
@@ -68,6 +70,7 @@ export const bookings = [
 
 export const tabs = [
     { id: 'home', name: 'Home', icon: FaHome, component: HomeTab },
-    { id: 'bookings', name: 'Bookings', icon: FaCalendar, component: BookingsTab },
+    { id: 'book', name: 'Bookings', icon: MdEditSquare, component: BookingsTab },
     { id: 'events', name: 'Events', icon: FaCalendar, component: Schedules },
+    { id: 'logout', name: 'Sign Out', icon: RiShutDownLine, component: Schedules}
   ];
