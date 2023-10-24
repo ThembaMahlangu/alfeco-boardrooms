@@ -1,5 +1,5 @@
 import { Dialog, Transition } from "@headlessui/react";
-import { Fragment, useState } from "react";
+import { Fragment, useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { useSession } from "next-auth/react";
@@ -54,6 +54,36 @@ export default function BookingModal({ isOpen, onClose }) {
     }
   };
 
+  const autoSelectBoardroom = () => {
+    if (bookingDetails.guests <= 4) {
+      setBookingDetails({ ...bookingDetails, boardroom: "Ferrum – Copper (4 seater)" });
+    } else if (bookingDetails.guests <= 10) {
+      setBookingDetails({ ...bookingDetails, boardroom: "Aluminium (10 seater)" });
+    } else if (bookingDetails.guests <= 14) {
+      setBookingDetails({ ...bookingDetails, boardroom: "Ferrum (14 seater)" });
+    }
+  };
+
+  useEffect(() => {
+    autoSelectBoardroom(guests);
+  }, [bookingDetails.guests]);
+
+  const resetBooking = () => {
+    setBookingDetails({
+      boardroom: "",
+      attendees: "",
+      requirements: ""
+    });
+    setErrorMsg("Booking timed out. Please start again.");
+  };
+
+  useEffect(() => {
+    let timer = setTimeout(() => {
+      resetBooking();
+    }, 120000);
+    return () => clearTimeout(timer);
+  }, [bookingDetails]);
+  
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog
