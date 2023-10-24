@@ -1,151 +1,151 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion } from 'framer-motion';
+// import { motion } from 'framer-motion';
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa';
-import BookingModal from './BookingModal';
+// import BookingModal from './BookingModal';
 
 export default function HomeHero() {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
-  const canvasRef = useRef(null);
+  // const canvasRef = useRef(null);
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    const ctx = canvas.getContext("2d");
+  // useEffect(() => {
+  //   const canvas = canvasRef.current;
+  //   const ctx = canvas.getContext("2d");
 
-    let w, h, balls = [];
-    let mouse = {
-      x: undefined,
-      y: undefined
-    }
+  //   let w, h, balls = [];
+  //   let mouse = {
+  //     x: undefined,
+  //     y: undefined
+  //   }
     
-    let rgb = [
-      "rgb(235, 64, 52)",
-      "rgb(0, 255, 200)",
-      "rgb(204, 102, 51)",
-      "rgb(235, 64, 52)",
-      "rgb(0, 255, 200)",
-      "rgb(204, 102, 51)",
-      "rgb(235, 232, 237)"
-    ]
+  //   let rgb = [
+  //     "rgb(235, 64, 52)",
+  //     "rgb(0, 255, 200)",
+  //     "rgb(204, 102, 51)",
+  //     "rgb(235, 64, 52)",
+  //     "rgb(0, 255, 200)",
+  //     "rgb(204, 102, 51)",
+  //     "rgb(235, 232, 237)"
+  //   ]
 
-    const resizeReset = () => {
-      w = canvas.width = window.innerWidth;
-      h = canvas.height = window.innerHeight;
-    }
+  //   const resizeReset = () => {
+  //     w = canvas.width = window.innerWidth;
+  //     h = canvas.height = window.innerHeight;
+  //   }
 
-    const animationLoop = () => {
-      ctx.clearRect(0, 0, w, h);
-      ctx.globalCompositeOperation = 'lighter';
-      drawBalls();
+  //   const animationLoop = () => {
+  //     ctx.clearRect(0, 0, w, h);
+  //     ctx.globalCompositeOperation = 'lighter';
+  //     drawBalls();
 
-      let temp = [];
-      for (let i = 0; i < balls.length; i++) {
-        if (balls[i].time <= balls[i].ttl) {
-          temp.push(balls[i]);
-        }
-      }
-      balls = temp;
+  //     let temp = [];
+  //     for (let i = 0; i < balls.length; i++) {
+  //       if (balls[i].time <= balls[i].ttl) {
+  //         temp.push(balls[i]);
+  //       }
+  //     }
+  //     balls = temp;
 
-      requestAnimationFrame(animationLoop);
-    }
+  //     requestAnimationFrame(animationLoop);
+  //   }
 
-    const drawBalls = () => {
-      for (let i = 0; i < balls.length; i++) {
-        balls[i].update();
-        balls[i].draw();
-      }
-    }
+  //   const drawBalls = () => {
+  //     for (let i = 0; i < balls.length; i++) {
+  //       balls[i].update();
+  //       balls[i].draw();
+  //     }
+  //   }
 
-    const mousemove = (e) => {
-      mouse.x = e.x;
-      mouse.y = e.y;
+  //   const mousemove = (e) => {
+  //     mouse.x = e.x;
+  //     mouse.y = e.y;
 
-      for (let i = 0; i < 3; i++) {
-        balls.push(new Ball());
-      }
-    }
+  //     for (let i = 0; i < 3; i++) {
+  //       balls.push(new Ball());
+  //     }
+  //   }
 
-    const mouseout = () => {
-      mouse.x = undefined;
-      mouse.y = undefined;
-    }
+  //   const mouseout = () => {
+  //     mouse.x = undefined;
+  //     mouse.y = undefined;
+  //   }
 
-    const getRandomInt = (min, max) => {
-      return Math.round(Math.random() * (max - min)) + min;
-    }
+  //   const getRandomInt = (min, max) => {
+  //     return Math.round(Math.random() * (max - min)) + min;
+  //   }
 
-    const easeOutQuart = (x) => {
-      return 1 - Math.pow(1 - x, 4);
-    }
+  //   const easeOutQuart = (x) => {
+  //     return 1 - Math.pow(1 - x, 4);
+  //   }
 
-    class Ball {
-      constructor() {
-        this.start = {
-          x: mouse.x + getRandomInt(-20, 20),
-          y: mouse.y + getRandomInt(-20, 20),
-          size: getRandomInt(30, 40)
-        }
-        this.end = {
-          x: this.start.x + getRandomInt(-300, 300),
-          y: this.start.y + getRandomInt(-300, 300)
-        }
+  //   class Ball {
+  //     constructor() {
+  //       this.start = {
+  //         x: mouse.x + getRandomInt(-20, 20),
+  //         y: mouse.y + getRandomInt(-20, 20),
+  //         size: getRandomInt(30, 40)
+  //       }
+  //       this.end = {
+  //         x: this.start.x + getRandomInt(-300, 300),
+  //         y: this.start.y + getRandomInt(-300, 300)
+  //       }
 
-        this.x = this.start.x;
-        this.y = this.start.y;
-        this.size = this.start.size;
+  //       this.x = this.start.x;
+  //       this.y = this.start.y;
+  //       this.size = this.start.size;
 
-        this.style = rgb[getRandomInt(0, rgb.length - 1)];
+  //       this.style = rgb[getRandomInt(0, rgb.length - 1)];
 
-        this.time = 0;
-        this.ttl = 120;
-      }
-      draw() {
-        ctx.fillStyle = this.style;
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.closePath();
-        ctx.fill();
-      }
-      update() {
-        if (this.time <= this.ttl) {
-          let progress = 1 - (this.ttl - this.time) / this.ttl;
+  //       this.time = 0;
+  //       this.ttl = 120;
+  //     }
+  //     draw() {
+  //       ctx.fillStyle = this.style;
+  //       ctx.beginPath();
+  //       ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+  //       ctx.closePath();
+  //       ctx.fill();
+  //     }
+  //     update() {
+  //       if (this.time <= this.ttl) {
+  //         let progress = 1 - (this.ttl - this.time) / this.ttl;
 
-          this.size = this.start.size * (1 - easeOutQuart(progress));
-          this.x = this.x + (this.end.x - this.x) * 0.01;
-          this.y = this.y + (this.end.y - this.y) * 0.01;
-        }
-        this.time++;
-      }
-    }
+  //         this.size = this.start.size * (1 - easeOutQuart(progress));
+  //         this.x = this.x + (this.end.x - this.x) * 0.01;
+  //         this.y = this.y + (this.end.y - this.y) * 0.01;
+  //       }
+  //       this.time++;
+  //     }
+  //   }
 
-    const init = () => {
-      resizeReset();
-      animationLoop();
-    }
+  //   const init = () => {
+  //     resizeReset();
+  //     animationLoop();
+  //   }
 
-    init();
+  //   init();
 
-    window.addEventListener("resize", resizeReset);
-    window.addEventListener("mousemove", mousemove);
-    window.addEventListener("mouseout", mouseout);
+  //   window.addEventListener("resize", resizeReset);
+  //   window.addEventListener("mousemove", mousemove);
+  //   window.addEventListener("mouseout", mouseout);
 
-    return () => {
-      window.removeEventListener("resize", resizeReset);
-      window.removeEventListener("mousemove", mousemove);
-      window.removeEventListener("mouseout", mouseout);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("resize", resizeReset);
+  //     window.removeEventListener("mousemove", mousemove);
+  //     window.removeEventListener("mouseout", mouseout);
+  //   };
+  // }, []);
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     setIsMobile(window.innerWidth < 768);
+  //   };
 
-    handleResize(); // Initial check
-    window.addEventListener('resize', handleResize);
+  //   handleResize(); // Initial check
+  //   window.addEventListener('resize', handleResize);
 
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  //   return () => window.removeEventListener('resize', handleResize);
+  // }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -195,7 +195,7 @@ export default function HomeHero() {
           {currentSlide === 0 ? 'Book Now' : 'Check Schedules'}
         </button>
       </div>
-          <canvas ref={canvasRef} id="canvas"></canvas>;
+          {/* <canvas ref={canvasRef} id="canvas"></canvas>; */}
 
       <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2">
         {[0, 1].map((slideIndex) => (
